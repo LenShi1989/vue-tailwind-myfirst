@@ -1,11 +1,11 @@
-# 🚀 一、確認環境
+# 一、確認環境
 ## 1️⃣ 安裝 Node.js（建議 LTS）
 node -v
 npm -v
 
 👉 若沒有安裝，請先安裝 Node.js LTS（18 或 20）
 
-# 🚀 二、建立 Vue 3 + Vite 專案（官方方式）
+# 二、建立 Vue 3 + Vite 專案（官方方式）
 ## ✅ 方法一：使用 npm create vite@latest（最推薦）
 ```sh
 npm create vite@latest my-vue-app
@@ -195,9 +195,167 @@ router.push({ name: 'Home' })
 ```sh
 npm install -D tailwindcss postcss autoprefixer
 npm install -D tailwindcss@3.4.17
-npx tailwindcss init -p
 pnpm install tailwindcss autoprefixer postcss
+
+npx tailwindcss init -p
+
 ```
+
+---
+
+# 一、安裝必要套件（Vue + Vite 標準）
+👉 TypeScript 專案（Vite + Vue + TS）
+```sh
+npm install -D eslint@^9
+
+```
+
+# 二、建立 eslint.config.mjs
+eslint.config.mjs
+```mjs
+// eslint.config.mjs
+import js from '@eslint/js'
+import vue from 'eslint-plugin-vue'
+import tseslint from 'typescript-eslint'
+
+export default [
+  {
+    ignores: ['dist/**', 'node_modules/**']
+  },
+
+  js.configs.recommended,
+
+  ...tseslint.configs.recommended,
+
+  ...vue.configs['flat/recommended'],
+
+  {
+    files: ['**/*.vue'],
+    rules: {
+      'vue/multi-word-component-names': 'off'
+    }
+  }
+]
+```
+
+# 一、安裝 Pinia
+```sh
+npm install pinia
+# or
+pnpm add pinia
+# or
+yarn add pinia
+```
+
+# 二、在 main.ts 註冊 Pinia（必要）
+src/main.ts
+```ts
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+import App from './App.vue'
+import './style.css' // Tailwind
+
+const app = createApp(App)
+
+const pinia = createPinia()
+app.use(pinia)
+
+app.mount('#app')
+```
+
+---
+
+# 一、Tailwind「一定要匯入的 3 行」
+📍 src/style.css（或 main.css）
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+👉 這 3 行就是 Tailwind 的本體
+
+# 二、在 main.ts 匯入 Tailwind（最重要）
+📍 src/main.ts
+```ts
+import { createApp } from 'vue'
+import App from './App.vue'
+import './style.css'   // 👈 一定要有
+
+createApp(App).mount('#app')
+```
+❗ 沒有這行，Tailwind 永遠不會生效
+
+# 三、Tailwind 設定檔（一定要有）
+📍 tailwind.config.js
+```ts
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    './index.html',
+    './src/**/*.{vue,js,ts,jsx,tsx}',
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+```
+👉 content 寫錯 = 樣式完全不會出現
+
+# 四、PostCSS 設定（Vite 會用到）
+📍 postcss.config.js
+```ts
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
+```
+
+# 五、開始使用 Tailwind（Vue 元件）
+```html
+<template>
+  <div class="p-6 bg-gray-100 min-h-screen">
+    <h1 class="text-2xl font-bold text-blue-600">
+      Hello Tailwind
+    </h1>
+
+    <button class="mt-4 px-4 py-2 bg-green-500 text-white rounded">
+      Button
+    </button>
+  </div>
+</template>
+```
+👉 不需要 import tailwind
+👉 class 直接寫就好
+
+# 六、常見「匯入失敗」原因 TOP 5（超常見）
+❌ 1. 忘記在 main.ts import CSS
+```ts
+import './style.css' ❌（不存在）
+```
+✅ 檔名要對
+
+❌ 2. content 路徑寫錯
+```ts
+content: ['./src/**/*.vue'] ❌
+```
+✅ 正確：
+```ts
+content: ['./src/**/*.{vue,js,ts,jsx,tsx}']
+```
+
+❌ 3. Tailwind 套件沒裝齊
+```sh
+npm list tailwindcss postcss autoprefixer
+```
+
+
+
+
+
+
 
 
 
