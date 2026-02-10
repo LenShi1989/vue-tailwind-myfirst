@@ -351,6 +351,10 @@ content: ['./src/**/*.{vue,js,ts,jsx,tsx}']
 npm list tailwindcss postcss autoprefixer
 ```
 
+# 啟動環境
+.env：所有模式預設載入。
+.env.development：僅在開發模式（npm run serve/dev）載入。
+.env.production：僅在生產模式（npm run build）載入。
 
 
 
