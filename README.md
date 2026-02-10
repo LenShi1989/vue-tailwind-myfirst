@@ -1,7 +1,9 @@
 # 一、確認環境
 ## 1️⃣ 安裝 Node.js（建議 LTS）
+```sh
 node -v
 npm -v
+```
 
 👉 若沒有安裝，請先安裝 Node.js LTS（18 或 20）
 
@@ -356,7 +358,144 @@ npm list tailwindcss postcss autoprefixer
 .env.development：僅在開發模式（npm run serve/dev）載入。
 .env.production：僅在生產模式（npm run build）載入。
 
+一、Vite 的 .env 規則（一定要先知道）
+✅ 只有 VITE_ 開頭 的變數
 
+👉 才能在前端程式碼中使用
+```sh
+VITE_API_URL=https://api.example.com
+```
+❌ 下面這個在前端拿不到：
+```sh
+API_URL=https://api.example.com
+```
+
+二、建立 .env 檔案（最常用）
+📁 專案根目錄
+```cpp
+.env                // 所有環境通用
+.env.development    // npm run dev
+.env.production     // npm run build
+.env.local          // 本機用（不進 git）
+```
+
+三、實際範例（你直接照用）
+.env.development
+```sh
+VITE_APP_NAME=My App (Dev)
+VITE_API_URL=http://localhost:8080
+VITE_PORT=3000
+```
+
+四、在 Vite 設定中使用（例如改 port）
+vite.config.ts
+```ts
+import { defineConfig, loadEnv } from 'vite'
+import vue from '@vitejs/plugin-vue'
+
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd())
+
+  return {
+    plugins: [vue()],
+    server: {
+      port: Number(env.VITE_PORT),
+    },
+  }
+})
+```
+
+五、在 Vue 元件 / TS 中使用
+任意 .vue 或 .ts
+```ts
+const apiUrl = import.meta.env.VITE_API_URL
+const appName = import.meta.env.VITE_APP_NAME
+```
+
+六、TypeScript 型別補齊（推薦）
+📍 src/env.d.ts
+```ts
+/// <reference types="vite/client" />
+
+interface ImportMetaEnv {
+  readonly VITE_API_URL: string
+  readonly VITE_APP_NAME: string
+  readonly VITE_PORT: string
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv
+}
+```
+👉 TS 不會再報錯
+👉 IDE 有自動補字
+
+七、API 實戰用法（超常見）
+```ts
+import axios from 'axios'
+
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+})
+
+export default api
+```
+
+八、⚠️ 超重要安全提醒
+❌ 千萬不要放在 .env
+```sh
+VITE_DB_PASSWORD=123456 ❌
+VITE_SECRET_KEY=xxx ❌
+```
+
+九、常見問題快速排查
+❓ 為什麼拿不到 .env？
+| 原因              | 解法                   |
+| --------------- | -------------------- |
+| 忘記 `VITE_`      | 加上                   |
+| dev server 沒重開  | 重開                   |
+| `.env` 放錯層      | 放專案根                 |
+| 用 `process.env` | 改成 `import.meta.env` |
+
+十、一句話記住
+Vite 前端環境變數 = .env + VITE_ + import.meta.env
+
+---
+
+# 啟動時開指定port
+
+## ✅ 方法一（最推薦）：修改 vite.config.ts
+📍 vite.config.ts
+```ts
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+
+export default defineConfig({
+  plugins: [vue()],
+  server: {
+    port: 3000,      // 👈 改成你要的
+    strictPort: true // 👈 如果被佔用就直接報錯
+  }
+})
+```
+
+## ✅ 方法二：用指令指定（臨時）
+```sh
+npm run dev -- --port 4000
+```
+
+## ✅ 方法三：用 .env（可切環境）
+📍 .env.development
+`VITE_PORT=5173`
+
+vite.config.ts
+```ts
+export default defineConfig({
+  server: {
+    port: Number(process.env.VITE_PORT),
+  },
+})
+```
 
 
 
