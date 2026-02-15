@@ -1,9 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{vue,js,ts,jsx,tsx}"
-  ],
+  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   darkMode: "class", // 開啟暗黑模式
   theme: {
     extend: {
@@ -15,6 +12,10 @@ export default {
       },
       fontSize: {
         "100xl": "100px", // 可自訂的 也可以覆蓋舊的
+      },
+      flexGrow: {
+        2: "2",
+        3: "3",
       },
     },
   },
