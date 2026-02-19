@@ -1,16 +1,28 @@
 <template>
-  <div class="grid grid-flow-col grid-rows-4 gap-4">
-    <div class="m-1 p-4 bg-violet-400 rounded-lg">01</div>
-    <div class="m-1 p-4 bg-violet-400 rounded-lg">02</div>
-    <div class="m-1 p-4 bg-violet-400 rounded-lg">03</div>
-    <div class="m-1 p-4 bg-violet-400 rounded-lg">04</div>
-    <div class="m-1 p-4 bg-violet-400 rounded-lg">05</div>
-    <div class="row-span-3 grid grid-rows-subgrid gap-4">
-      <div class="row-start-2 m-1 p-4 bg-violet-400 rounded-lg">06</div>
+  <div class="p-8 dark:bg-gray-800 dark:text-white min-h-screen">
+    <h1 class="mb-4 font-bold">RWD</h1>
+    <div class="grid grid-rows-4 grid-cols-4 gap-1">
+      <button
+        type="button"
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        @click="handleClick1('rwd')"
+      >
+        跳轉到 RWD
+      </button>
     </div>
-    <div class="m-1 p-4 bg-violet-400 rounded-lg">07</div>
-    <div class="m-1 p-4 bg-violet-400 rounded-lg">08</div>
-    <div class="m-1 p-4 bg-violet-400 rounded-lg">09</div>
-    <div class="m-1 p-4 bg-violet-400 rounded-lg">10</div>
   </div>
 </template>
+
+<script setup lang="ts">
+// import { onMounted } from "vue";
+import router from "@/router";
+
+// 跳轉的函數
+const handleClick1 = (target: string) => {
+  router.push(`/${target}`);
+};
+
+const handleClick2 = (target: string) => {
+  router.push(`/${target}`);
+};
+</script>

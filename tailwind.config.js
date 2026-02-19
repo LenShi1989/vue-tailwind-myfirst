@@ -13,10 +13,6 @@ export default {
       fontSize: {
         "100xl": "100px", // 可自訂的 也可以覆蓋舊的
       },
-      flexGrow: {
-        2: "2",
-        3: "3",
-      },
     },
   },
   plugins: [],
