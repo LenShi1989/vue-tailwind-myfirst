@@ -11,9 +11,26 @@ const router = createRouter({
       component: () => import('../views/Home.vue'),
     },
     {
-      path: '/rwd',
-      name: 'rwd',
-      component: () => import('../views/RWD.vue'),
+      path: '/test',
+      name: 'test',
+      component: () => import('../views/Test.vue'),
+      children: [
+        {
+          path: 'rwd',
+          name: 'rwd',
+          component: () => import('../views/RWD.vue'),
+        },
+        {
+          path: 'button',
+          name: 'button',
+          component: () => import('../views/Button.vue'),
+        },
+        {
+          path: 'grid',
+          name: 'grid',
+          component: () => import('../views/Grid.vue'),
+        },
+      ],
     },
   ]
 })
