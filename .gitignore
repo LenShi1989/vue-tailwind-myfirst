@@ -24,5 +24,6 @@ dist-ssr
 *.sw?
 
 # 環境變數
-*.env
-.env.*
+.env*.
+.env.development
+.env.production
