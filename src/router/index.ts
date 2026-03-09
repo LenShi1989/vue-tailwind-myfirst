@@ -30,6 +30,11 @@ const router = createRouter({
           name: 'grid',
           component: () => import('../views/Grid.vue'),
         },
+        {
+          path: 'size',
+          name: 'size',
+          component: () => import('../views/Size.vue'),
+        },
       ],
     },
   ]
